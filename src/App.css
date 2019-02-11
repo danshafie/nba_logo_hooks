@@ -32,8 +32,21 @@
 }
 
 .container {
-  margin: 20px 20px;
+  /* margin: 20px 20px; */
   position: relative;
+  background: #d3cce3; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #d3cce3,
+    #e9e4f0
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #d3cce3,
+    #e9e4f0
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  height: 100vh;
+  overflow: hidden;
 }
 
 .expand_button {
@@ -47,7 +60,6 @@
   transition: all 0.5s ease;
   width: 200px;
   height: 50px;
-  margin-left: 10px;
 }
 
 .expand_button:active {
@@ -59,8 +71,8 @@
 }
 
 .controls {
-  position: absolute;
-  top: 10px;
+  /* position: absolute; */
+  /* top: 80px; */
 }
 
 .svg.logo {
@@ -71,9 +83,33 @@
 
 svg {
   transition: all 0.6s ease;
+  /* animation: reduce 600ms linear forwards; */
 }
 
 svg.expanded {
+  /* animation: expand 600ms linear forwards; */
+
   width: 600px;
   height: 600px;
+}
+
+.team_input {
+  box-shadow: 6px 3px 15px -2px rgba(176, 150, 176, 0.76);
+  display: block;
+  height: 25px;
+  width: 260px;
+  border: 1px solid rgba(0, 0, 0, 0);
+  margin-bottom: 20px;
+  border-radius: 3%;
+
+  padding: 5px;
+}
+
+@media (min-width: 868px) {
+  .controls {
+    display: flex;
+    border: 1px solid;
+    justify-content: space-between;
+    width: 100%;
+  }
 }

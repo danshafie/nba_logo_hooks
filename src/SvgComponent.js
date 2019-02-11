@@ -7,7 +7,8 @@ const SvgComponent = ({
   red,
   green,
   blue,
-  toggleExpand
+  toggleExpand,
+  team
 }) => {
   const [element, setElement] = useState(null);
   const [paths, setPaths] = useState([]);
@@ -18,15 +19,17 @@ const SvgComponent = ({
     setSvgele(svgEle);
     getPaths();
 
-    if (element) {
-      element.style.fill = `rgb(${red}, ${green}, ${blue})`;
-    }
+    if (svgEle) {
+      if (element) {
+        element.style.fill = `rgb(${red}, ${green}, ${blue})`;
+      }
 
-    if (toggleExpand) {
-      svgEle.classList.add("expanded");
-    }
-    if (!toggleExpand) {
-      svgEle.classList.remove("expanded");
+      if (toggleExpand) {
+        svgEle.classList.add("expanded");
+      }
+      if (!toggleExpand) {
+        svgEle.classList.remove("expanded");
+      }
     }
   }, [element, red, green, blue, toggleExpand]);
 
@@ -41,7 +44,7 @@ const SvgComponent = ({
     // e.target.style.fill = `rgb(${red}, ${green}, ${blue})`;
   };
 
-  return <div className="svg logo">{Svg[title]}</div>;
+  return <div className="svg logo" />;
 };
 
 export default SvgComponent;

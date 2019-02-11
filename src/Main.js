@@ -1,15 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import Svgs from "./Svgs";
 import SvgComponent from "./SvgComponent";
 import ExpandButton from "./expandButton";
-
-const App = () => {
+import Input from "./Input";
+import context from "./context";
+import DownloadButton from "./DownloadButton";
+const Main = () => {
   const [redColor, setRedColor] = useState(0);
   const [greenColor, setGreenColor] = useState(0);
   const [blueColor, setBlueColor] = useState(0);
   const [toggleExpand, setToggleExpand] = useState(false);
+  const [team, setTeam] = useState(null);
+  const [error, setError] = useState(false);
+
+  // const { state, dispatch } = useContext(context);
 
   const setColor = e => {
     if (e.target.id === "red_slider") {
@@ -21,19 +27,44 @@ const App = () => {
     }
   };
 
+  const runFileChange = e => {
+    const selectedFile = document.getElementById("input").files[0];
+    const preview = document.querySelector(".svg.logo");
+
+    if (selectedFile.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onload = (function(aImg) {
+        return function(e) {
+          const svg = atob(
+            e.target.result.replace(/data:image\/svg\+xml;base64,/, "")
+          );
+          setTeam(svg);
+          preview.innerHTML = svg;
+        };
+      })();
+      reader.readAsDataURL(selectedFile);
+      setError(false);
+    } else {
+      setError(true);
+    }
+  };
+
   return (
     <div className="container">
       {/* <div className="svgs">{Svgs.rockets}</div> */}
 
       <SvgComponent
-        title="lakers"
         red={redColor}
         blue={blueColor}
         green={greenColor}
         toggleExpand={toggleExpand}
+        team={team}
       />
 
+      <input type="file" id="input" onChange={runFileChange} />
+
       <div className="controls">
+        {/* <Input team={team} setTeam={setTeam} /> */}
         <ExpandButton
           toggleExpand={toggleExpand}
           setToggleExpand={setToggleExpand}
@@ -85,9 +116,16 @@ const App = () => {
             background: `rgb(${redColor}, ${greenColor}, ${blueColor})`
           }}
         />
+        {Boolean(team) && <DownloadButton team={team} />}
+
+        {error && (
+          <div className="error">
+            there was an error reading your file. please try again
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default App;
+export default Main;
